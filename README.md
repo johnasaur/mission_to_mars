@@ -1,1 +1,3 @@
-# mission_to_mars
+https://johnasaur.github.io/mars_mission/
+
+*work in progress*
