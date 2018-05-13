@@ -4,34 +4,33 @@ import pandas as pd
 from splinter import Browser
 from bs4 import BeautifulSoup
 import time
+import pandas as pd 
+from selenium import webdriver 
 
-
-# Set up Chromedriver
+# # Set up Chromedriver
 executable_path = {"executable_path": "/Users/AJ/Downloads/chromedriver"}
 browser = Browser("chrome", **executable_path, headless=False)
 
-
-# URLs to Scrape
+# # URLs to Scrape
 img = "https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars" 
 twitter_url = "https://twitter.com/marswxreport?lang=en" 
 space_facts = "https://space-facts.com/mars/" 
 hemi_url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars" 
 
-# Defining scrape & dictionary
 def scrape():
-    mars = {}
-    output = News()
-    mars["newsm"] = output[0]
-    mars["paragraphm"] = output[1]
-    mars["imagem"] = Image()
-    mars["weatherm"] = Weather()
-    mars["factsm"] = Facts()
-    mars["hemispherem"] = Hemi()
-    return mars
+    mars_data = {}
+    output = marsNews()
+    mars_data["news_title"] = output[0]
+    mars_data["news_p"] = output[1]
+    mars_data["featured_image_url"] = marsImage()
+    mars_data["weather_m"] = marsWeather()
+    mars_data["facts_m2"] = marsFacts()
+    mars_data["mars_hemi"] = marsHemi()
 
+    return mars_data
 
-# NASA Mars News Browser
-def News():
+# # NASA Mars News Browser
+def marsNews():
     news = "https://mars.nasa.gov/news/" 
     browser.visit(news)
     html = browser.html
@@ -40,13 +39,14 @@ def News():
     article = soup.find("div", class_="list_text")
     news_title = article.find("div", class_="content_title").text
     news_p = article.find("div", class_ ="article_teaser_body").text
+    output = [news_title, news_p]
     # print(news_title)
     # print(news_p)
     return output
 
 
-# JPL Mars Space Images - Find by id (CSS)
-def Image():
+# # JPL Mars Space Images - Find by id (CSS)
+def marsImage():
     browser.visit(img)
     html = browser.html
     soup = BeautifulSoup(html, "html.parser")
@@ -57,8 +57,8 @@ def Image():
     return featured_image_url
 
 
-# Mars Weather from Twitter
-def Weather():
+# # Mars Weather from Twitter
+def marsWeather():
     browser.visit(twitter_url)
     time.sleep(1)
     html_mars = browser.html
@@ -69,8 +69,8 @@ def Weather():
     #print(weather_m)
     return weather_m
 
-# Mars Facts
-def Facts():
+# # Mars Facts
+def marsFacts():
     browser.visit(space_facts)
     facts_m = pd.read_html(space_facts)
     facts_m = pd.DataFrame(facts_m[0])
@@ -78,11 +78,10 @@ def Facts():
     facts_m = facts_m.set_index("Description")
     facts_m2 = facts_m.to_html(header = False, index = False)
     #print(facts_m2)
-    return facts_m
+    return facts_m2
 
-
-# Mars Hemispheres
-def Hemi():
+# # Mars Hemispheres
+def marsHemi():
     browser.visit(hemi_url)
     html = browser.html
     soup = BeautifulSoup(html, "html.parser")
