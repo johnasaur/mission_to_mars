@@ -1,5 +1,7 @@
 https://johnasaur.github.io/mars_mission/
+
 *the link does not work to its full capacity, app.py needs to be run locally in order for the full page to be seen
+
 *will continue to work on this site
 
 ### Step 1 - Scraping
