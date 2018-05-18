@@ -1,8 +1,4 @@
-https://johnasaur.github.io/mars_mission/
-
-*the link does not work to its full capacity, app.py needs to be run locally in order for the full page to be seen
-
-*will continue to work on this site
+https://johnasaur.github.io/mars_mission/ *under construction*
 
 ### Step 1 - Scraping
 * Complete your initial scraping using Jupyter Notebook, BeautifulSoup, Pandas, and Requests/Splinter.
